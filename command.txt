@@ -1,0 +1,1 @@
+bet ../../X_DATA/structural.nii.gz structural_brain.nii.gz -f 0.50 -g 0.00

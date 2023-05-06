@@ -1,0 +1,43 @@
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { CButton, CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react'
+import { cilAccountLogout } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
+import { AppSidebarNav } from './AppSidebarNav'
+import SimpleBar from 'simplebar-react'
+import { useNavigate } from "react-router-dom";
+
+// sidebar nav config
+import navigation from '../_nav'
+
+const AppSidebar = () => {
+  const dispatch = useDispatch()
+  const unfoldable = useSelector((state) => state.sidebarUnfoldable)
+  const sidebarShow = useSelector((state) => state.sidebarShow)
+
+
+
+
+  return (
+    <CSidebar
+      position="fixed"
+      unfoldable={unfoldable}
+      visible={sidebarShow}
+      onVisibleChange={(visible) => {
+        dispatch({ type: 'set', sidebarShow: visible })
+      }}
+    >
+      <CSidebarNav>
+        <SimpleBar>
+          <AppSidebarNav items={navigation} />
+        </SimpleBar>
+      </CSidebarNav>
+      <CSidebarToggler
+        className="d-none d-lg-flex"
+        onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}
+      />
+    </CSidebar>
+  )
+}
+
+export default React.memo(AppSidebar)

@@ -1,0 +1,27 @@
+CREATE SEQUENCE user_id_seq MINVALUE 1;
+
+CREATE TABLE public.user (
+                  use_id INTEGER NOT NULL DEFAULT NEXTVAL('user_id_seq'),
+                  use_name CHARACTER varying(128)  NOT NULL,
+                  use_password CHARACTER varying(256) NOT NULL,
+                  use_mail CHARACTER varying(256) NOT NULL,
+                  use_admin BOOLEAN NOT NULL DEFAULT FALSE,
+                  CONSTRAINT user_pkey PRIMARY KEY (use_id),
+                  CONSTRAINT uni_use_name UNIQUE (use_name),
+                  CONSTRAINT uni_use_mail UNIQUE (use_mail));
+
+CREATE TABLE public.blacklist (
+    bla_token character varying(256) COLLATE pg_catalog."default" NOT NULL
+);
+
+CREATE SEQUENCE pro_id_seq MINVALUE 1;
+CREATE TABLE public.process (
+                  pro_id INTEGER NOT NULL DEFAULT NEXTVAL('pro_id_seq'),
+                  pro_name CHARACTER varying(500)  NOT NULL,
+                  pro_use_id INTEGER NOT NULL REFERENCES public.user (use_id),
+                  pro_zip BYTEA NOT NULL,
+                  pro_timestamp TIMESTAMP NOT NULL DEFAULT NOW(),
+                  pro_type CHARACTER (100),
+                  CONSTRAINT pro_pkey PRIMARY KEY (pro_id),
+                  CONSTRAINT uni_pro_name  UNIQUE (pro_name)
+                  );
