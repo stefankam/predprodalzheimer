@@ -36,7 +36,9 @@ def add_user():
     response = db_user.add_client(user_name, hashed_user_password, user_mail)
     newId = get_userId_by_name(user_name)
     print(newId)
-    os.system("mkdir '{0}'/'{1}'".format(FSL_FILESERVER, newId))
+    #as soon as the user is registerd the a new file repertoire is created for him
+    if newId == True:
+        os.system("mkdir '{0}'/'{1}'".format(FSL_FILESERVER, newId))
     return {'success': response}
 
 

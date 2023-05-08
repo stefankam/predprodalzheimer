@@ -146,6 +146,7 @@ function Analysis(){
         formData.append("fMRIFile", fMRIFile);
         formData.append("processName", processName);
         formData.append("TR", tr);
+        formData.append("username", localStorage.getItem("user"));
 
         for (var i = 0; i<Object.keys(form).length;i++){
             formData.append(Object.keys(form)[i],form[Object.keys(form)[i]])

@@ -10,11 +10,16 @@ const Register = () => {
   const [user_mail, setMail] = useState('')
   const [user_password, setPassword] = useState('')
   const [alert_visible, setVisible] = useState(false)
+  const [visibleSpan, setVisibleSpan] = useState(true)
+  const [disabledButton, setDisableButton] = useState(false)
+  const [alertText, setAlertText] = useState("")
 //  const [alert_visible, setVisible] = useState(false);
 //  const [alert_color, setColor ] = useState('danger')
 
   const onSubmitClick = (e) => {
       e.preventDefault()
+      setVisibleSpan(true);
+      setDisableButton(true);
       fetch(`http://localhost:5000/user_exists?username=${encodeURIComponent(user_name)}`, {
         method: 'GET'})
         .then(resp => resp.json())
@@ -22,7 +27,10 @@ const Register = () => {
             console.log(data)
             if (data.user == 1){
                 setVisible(true)
+                setAlertText("Ups, this user already exists.")
                 //TODO - handle already existing username
+                setVisibleSpan(true);
+                setDisableButton(false);
                 }
             else {
                 //TODO - check if password okay (2x)
@@ -35,7 +43,19 @@ const Register = () => {
                 method: 'POST',
                 body: JSON.stringify(opts)})
                 .then(resp => resp.json())
-                .then(data => console.log(data))
+                .then(data => {
+                    setVisibleSpan(true);
+                    setDisableButton(false);
+                    if(data.success == false){
+                        setVisible(true)
+                        setAlertText("Ups, something went wrong.")
+                    }else{
+                        alert("Be welcome in the new web application")
+                        nav("/login");
+                    }
+
+
+                })
             }
         })
   }
@@ -72,8 +92,7 @@ const Register = () => {
                   <p className="text-medium-emphasis">Create your account</p>
                   <CAlert color="danger "className="d-flex align-items-left" visible={alert_visible}>
                       <CIcon icon={cilWarning} className="flex-shrink-0 me-2" width={24} height={24} />
-                      <p>Uups, looks like this user already exists.
-                      </p>
+                      <p>{alertText} </p>
                      </CAlert>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
@@ -83,13 +102,13 @@ const Register = () => {
                      placeholder="Username"
                      autoComplete="username"
                      onChange={handleUsernameChange}
-                     value={user_name}/>
+                     value={user_name} required/>
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText id="basic-addon1">@</CInputGroupText>
                     <CFormInput placeholder="e-Mail"
                                 onChange={handleMailChange}
-                                value={user_mail}/>
+                                value={user_mail} required/>
                   </CInputGroup>
                   <CInputGroup className="mb-4">
                     <CInputGroupText>
@@ -100,16 +119,21 @@ const Register = () => {
                       placeholder="Password"
                       autoComplete="new-password"
                     onChange={handlePasswordChange}
-                    value={user_password}
+                    value={user_password} required
                     />
                   </CInputGroup>
                   <div className="d-grid">
-                    <CButton color="success" onClick={onSubmitClick} type="submit" disabled={alert_visible}>Create Account</CButton>
+                    <CButton color="success" onClick={onSubmitClick} type="submit" disabled={disabledButton}>
+                    <span class="spinner-border spinner-border-sm" role="status" id="load_preprocess" hidden={visibleSpan}></span>
+                    Create Account
+                    </CButton>
                   </div>
                 </CForm>
                 <CCol xs={6} >
                   <Link to="/login">
-                    <CButton color="link" className="px-0" to="/login"> Back to Login </CButton>
+                    <CButton color="link" className="px-0" to="/login">
+                    Back to Login
+                    </CButton>
                   </Link>
                 </CCol>
               </CCardBody>

@@ -8,10 +8,8 @@ const AnalyseMRI = React.lazy(() => import('./pages/Analysis'))
 const AnalyseEEG = React.lazy(() => import('./pages/Page500'))
 const AnalyseNPT = React.lazy(() => import('./pages/Page500'))
 const Output = React.lazy(() => import('./pages/Output'))
-const Settings = React.lazy(() => import('./pages/Settings'))
-const AccountData = React.lazy(() => import('./pages/Account'))
-
-const Tester = React.lazy(() => import('./pages/Account'))
+const AboutProject = React.lazy(() => import('./pages/Settings'))
+const Account = React.lazy(() => import('./pages/Account'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -27,8 +25,8 @@ const routes = [
 
   { path: '/output', name: 'Output', element: Output },
 
-  { path: '/settings', name: 'Settings', element: Settings },
-  { path: '/account-data', name: 'Account data', element: AccountData }
+  { path: '/account', name: 'Account', element: Account },
+  { path: '/about', name: 'About this project', element: AboutProject }
 ]
 
 export default routes

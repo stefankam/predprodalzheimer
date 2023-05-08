@@ -77,14 +77,14 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Account details',
-    to: '/account-data',
+    name: 'Account',
+    to: '/account',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />
   },
   {
     component: CNavItem,
-    name: 'Settings',
-    to: '/settings',
+    name: 'About this project',
+    to: '/about',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />
   }
 ]

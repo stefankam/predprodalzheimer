@@ -163,8 +163,6 @@ function Input(){
 
 
     /////////////////////////// TODO remove or work on!!!
-    //const [output_brain_name, setOutputBrainName] = useState()
-    //const onOutputBrainNameChange = (e) => {setProcessName(e.target.value)}
 
     //STILL IN IMPLEMENTATION
     const [items, setItems] = useState([`<p><CIcon icon={cilReload} size="lg" /> Apple</p>`, 'Banana', 'Cherry', 'Guava', 'Peach', 'Strawberry']);

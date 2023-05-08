@@ -14,7 +14,7 @@ def set_vars():
 def test_files(set_vars):
     testfile = "/home/jen/X_DATA/structural.nii.gz"
     myb = fsl.BET()
-    myb.inputs.in_file = testfile
+    myb.inputs.in_file = "/home/jen/X_DATA/functional.nii.gz"
     print(myb.cmdline)
     assert myb.inputs.in_file == testfile, "Bet files do not match"+testfile+" - "+myb.inputs.in_file
 

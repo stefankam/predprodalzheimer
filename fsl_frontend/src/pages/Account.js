@@ -22,6 +22,7 @@ function Account(){
     <CRow>
       <CCol xs={12}>
             <h1> Your account</h1>
+            Username : {localStorage.getItem("user")} <br/><br/>
          <CButton onClick={logout}>Logout</CButton>
       </CCol>
     </CRow>

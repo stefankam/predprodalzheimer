@@ -94,71 +94,72 @@ def generate_matrix():
             os.system("mkdir '{0}'/'{1}'".format(UP_FO_MAT, new_process_name))
             new_filepath = UP_FO_MAT + "/" + new_process_name
             filepath = os.path.join(new_filepath, fname)
-            # f.save(filepath)
+            f.save(filepath)
         else:
             return {"Wrong input": f.rsplit('.', 1)[1].lower()}
 
-        # try:
-        #     # 3: tr, nbNodes, mask, bet
-        #     tr = float(request.form.get("TR"))
-        #     nbNodes = int(request.form.get("nbNodes", 116))
-        #     mask = request.form.get("mask", FSL_MASKS[0])
-        #     if mask == "1" :
-        #         mask = FSL_MASKS[0]
-        #     elif mask == "2":
-        #         mask = FSL_MASKS[1]
-        #     elif mask == "0":
-        #         mask = None
-        #     bet = parseBool(request.form.get("bet", None))
-        #     n = {"tr": tr, "nbNodes": nbNodes, "mask": mask, "bet": bet}
-        #     melodicParams = {}
-        #     for m in n:
-        #         if (n[m]) is not None:
-        #             melodicParams[m] = n[m]
-        #     melodic(filepath, new_filepath, **melodicParams)
-        #     ic_filepath = os.path.join(new_filepath, "melodic_IC.nii.gz")
-        # except Exception as e:
-        #     print(e)
-        #     return {"Error": e}
-        # try:
-        #     #4 : normalisation, group_mean, nb of permutations
-        #     norm = parseBool(request.form.get("norm", "true"))
-        #     perm = int(request.form.get("nbPerm", 0))
-        #     n = {"des_norm": norm, "n_perm": perm}
-        #     dualParams = {}
-        #     for dp in n:
-        #         if (n[dp]) is not None:
-        #             dualParams[dp] = n[dp]
-        #     dualParams["out_dir"] = str(new_filepath + "/" + "melodic_IC.dr")
-        #     dual_regression(filepath, ic_filepath, **dualParams)
-        #     dr_filepath = os.path.join(new_filepath, "melodic_IC.dr")
-        # except Exception as e:
-        #     print(e)
-        #     return {"Error": e}
-        # try:
-        #     # 3: tr, nbNodes, mask, bet
-        #     nbNodes = int(request.form.get("nbNodes", 116))
-        #     normal = request.form.get("normal", True)
-        #     corr = request.form.get("corr", "corr")
-        #     matrixTitle = request.form.get("matrixName", "Brain connectivity matrix")
-        #     add_octave(dr_filepath, tr, normal, corr, "jet", matrixTitle, new_filepath)
-        # except Exception as e:
-        #     print(e)
-        #     return {"Error": e}
-        #zipFile = new_filepath + "/" + new_process_name + ".zip"
-        zipFile = "/home/jen/X_MATRICES/JensProcess.zip"
+        try:
+            # 3: tr, nbNodes, mask, bet
+            tr = float(request.form.get("TR"))
+            nbNodes = int(request.form.get("nbNodes", 116))
+            mask = request.form.get("mask", FSL_MASKS[0])
+            if mask == "1" :
+                mask = FSL_MASKS[0]
+            elif mask == "2":
+                mask = FSL_MASKS[1]
+            elif mask == "0":
+                mask = None
+            bet = parseBool(request.form.get("bet", None))
+            n = {"tr": tr, "nbNodes": nbNodes, "mask": mask, "bet": bet}
+            melodicParams = {}
+            for m in n:
+                if (n[m]) is not None:
+                    melodicParams[m] = n[m]
+            melodic(filepath, new_filepath, **melodicParams)
+            ic_filepath = os.path.join(new_filepath, "melodic_IC.nii.gz")
+        except Exception as e:
+            return {"Error": e}
+        try:
+            #4 : normalisation, group_mean, nb of permutations
+            norm = parseBool(request.form.get("norm", "true"))
+            perm = int(request.form.get("nbPerm", 0))
+            n = {"des_norm": norm, "n_perm": perm}
+            dualParams = {}
+            for dp in n:
+                if (n[dp]) is not None:
+                    dualParams[dp] = n[dp]
+            dualParams["out_dir"] = str(new_filepath + "/" + "melodic_IC.dr")
+            dual_regression(filepath, ic_filepath, **dualParams)
+            dr_filepath = os.path.join(new_filepath, "melodic_IC.dr")
+        except Exception as e:
+            print(e)
+            return {"Error": e}
+        try:
+            # 3: tr, nbNodes, mask, bet
+            nbNodes = int(request.form.get("nbNodes", 116))
+            normal = request.form.get("normal", True)
+            corr = request.form.get("corr", "corr")
+            matrixTitle = request.form.get("matrixName", "Brain connectivity matrix")
+            add_octave(dr_filepath, tr, normal, corr, "jet", matrixTitle, new_filepath)
+        except Exception as e:
+            print(e)
+            return {"Error": e}
+        zipFile = new_filepath + "/" + new_process_name + ".zip"
         print(zipFile)
-        #shutil.make_archive(new_filepath, 'zip', new_filepath)
-        #shutil.rmtree(new_filepath, ignore_errors=True)
+        shutil.make_archive(new_filepath, 'zip', new_filepath)
+        shutil.rmtree(new_filepath, ignore_errors=True)
 
         # Save the generated files
-        #loggedUser = request.form.get("username")
-        #userId = get_userId_by_name(loggedUser)
+        loggedUser = request.form.get("username")
+        userId = get_userId_by_name(loggedUser)
+        print(userId)
         try:
-            with open(zipFile, 'rb') as zip_archive:
-                #add_process(new_process_name, userId, zipFile)
-                add_process("TestProcess", 7, zipFile)
-                return {"Success": "Your matrix was generated"}, 200
+            add_process(new_process_name, userId, zipFile)
+            #file saving if no fileserver is available
+            # with open(zipFile, 'rb') as zip_archive:
+            #     add_process(new_process_name, userId, zipFile)
+            #     #add_process("TestProcess", 7, zipFile)
+            return {"Success": "Your matrix was generated"}, 200
         except Exception as e:
             print(e)
             return {"Failed": e}, 200
