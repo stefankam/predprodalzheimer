@@ -1,9 +1,9 @@
 # predprodalzheimer
 predict prodromal alzheimer
 
-Installation manual for developers
+<h1>Installation manual for developers</h1>
 The FSL-web-application visualises and simplifies the use of FSL. The goal of this document is, hence, to help developers to quick and easily get started with the setup of this project. 
-Please note, since FSL is only runnable on Linux and MacOs, this guide does not provide any information on specific windows application options. If you are a windows user, please use a virtual machine for this set up procedure.
+<i>Please note, since FSL is only runnable on Linux and MacOs, this guide does not provide any information on specific windows application options. If you are a windows user, please use a virtual machine for this set up procedure.</i>
 
 <h2>1: Downloading the project</h2>
 <ul>
